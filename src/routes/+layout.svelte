@@ -20,6 +20,7 @@
 	} from 'flowbite-svelte';
 	import { Cog } from 'svelte-heros-v2';
 	import { sineIn } from 'svelte/easing';
+	import { getPollenData } from '../services/APICall';
 
 	let transitionParams = {
 		x: -320,
