@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.postcss';
+	import '../app.css';
 	import type { PageData } from './$types';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
@@ -73,7 +74,7 @@
 	<NavBrand href="/" class="lg:ml-64">
 		<Cog />
 		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white pl-4">
-			My Website
+			Pollen Tracker
 		</span>
 	</NavBrand>
 	<NavHamburger on:click={toggle} />

@@ -1,0 +1,19 @@
+.tableGrid {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.problemAreasGrid {
+	margin-top: 3rem;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 1fr 1fr;
+}
+
+.submitButton {
+	display: grid;
+	grid-template-columns: 1fr;
+	margin: auto;
+	margin-top: 2rem;
+}

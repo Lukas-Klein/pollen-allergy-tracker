@@ -35,7 +35,7 @@
 		"prettier-plugin-svelte": "^2.8.1",
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",
-		"svelte-heros-v2": "^0.3.10",
+		"svelte-heros-v2": "^0.3.21",
 		"svelte-preprocess": "^4.10.7",
 		"tailwindcss": "^3.1.5",
 		"tslib": "^2.4.1",
@@ -45,6 +45,9 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"axios": "^1.4.0"
+		"@supabase/supabase-js": "^2.22.0",
+		"axios": "^1.4.0",
+		"dotenv": "^16.0.3",
+		"svelte-simples": "^0.7.1"
 	}
 }
