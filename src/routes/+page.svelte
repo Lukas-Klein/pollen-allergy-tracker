@@ -7,7 +7,9 @@
 		Rating,
 		Button,
 		ListPlaceholder,
-		TestimonialPlaceholder
+		TestimonialPlaceholder,
+		Accordion,
+		AccordionItem
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { getPollenData, sendToBackend } from '../services/APICall';
@@ -26,6 +28,7 @@
 	const problemAreas: string[] = ['Augen', 'Nase'];
 	const days: string[] = ['Heute', 'Morgen', 'Übermorgen'];
 	let loading: boolean = true;
+	let mobile: boolean;
 
 	const intensityMap = new Map<number, string>([
 		[0, 'Keine'],
@@ -43,20 +46,77 @@
 	]);
 
 	onMount(async () => {
+		window.screen.width < 768 ? (mobile = true) : (mobile = false);
 		const pollenData: iPollenData[] = await getPollenData();
 		pollenDataStore.set(pollenData);
 		loading = false;
 	});
 </script>
 
-{#key loading}
-	{#if loading}
+<svelte:window on:resize={() => (window.screen.width < 768 ? (mobile = true) : (mobile = false))} />
+
+{#if loading}
+	<div class="tableGrid">
+		<ListPlaceholder />
+		<ListPlaceholder />
+		<ListPlaceholder />
+	</div>
+	<TestimonialPlaceholder class="skeletonBottom" />
+{:else}
+	{#if mobile}
 		<div class="tableGrid">
-			<ListPlaceholder />
-			<ListPlaceholder />
-			<ListPlaceholder />
+			{#each $pollenDataStore as pollenDay, i}
+				<Accordion flush>
+					{#if i === 0}
+						<AccordionItem open>
+							<span slot="header">{days[i]}</span>
+							<Table striped={true}>
+								<TableHead>
+									<TableHeadCell>Name</TableHeadCell>
+									<TableHeadCell>Stärke</TableHeadCell>
+								</TableHead>
+								<TableBody>
+									{#each pollenDay as pollen}
+										<TableBodyRow>
+											<TableBodyCell>{pollen.name}</TableBodyCell>
+											<TableBodyCell
+												><Rating
+													total={3}
+													rating={mapSeverityRating.get(pollen.severity)}
+												/></TableBodyCell
+											>
+										</TableBodyRow>
+									{/each}
+								</TableBody>
+							</Table>
+						</AccordionItem>
+					{:else}
+						<AccordionItem>
+							<span slot="header">{days[i]}</span>
+							<Table striped={true}>
+								<TableHead>
+									<TableHeadCell>Name</TableHeadCell>
+									<TableHeadCell>Stärke</TableHeadCell>
+								</TableHead>
+								<TableBody>
+									{#each pollenDay as pollen}
+										<TableBodyRow>
+											<TableBodyCell>{pollen.name}</TableBodyCell>
+											<TableBodyCell
+												><Rating
+													total={3}
+													rating={mapSeverityRating.get(pollen.severity)}
+												/></TableBodyCell
+											>
+										</TableBodyRow>
+									{/each}
+								</TableBody>
+							</Table>
+						</AccordionItem>
+					{/if}
+				</Accordion>
+			{/each}
 		</div>
-		<TestimonialPlaceholder class="skeletonBottom" />
 	{:else}
 		<div class="tableGrid">
 			{#each $pollenDataStore as pollenDay, i}
@@ -84,15 +144,15 @@
 				</div>
 			{/each}
 		</div>
-		<div class="problemAreasGrid">
-			{#each problemAreas as problemArea, i}
-				<div>
-					<Label>{problemArea}</Label>
-					<Range id="range-steps" min="0" max="2" step="1" bind:value={rangeValues[i]} />
-					<P>{intensityMap.get(rangeValues[i])} Beschwerden</P>
-				</div>
-			{/each}
-		</div>
-		<Button pill class="submitButton" on:click={() => sendToBackend(rangeValues)}>Submit</Button>
 	{/if}
-{/key}
+	<div class="problemAreasGrid">
+		{#each problemAreas as problemArea, i}
+			<div>
+				<Label>{problemArea}</Label>
+				<Range id="range-steps" min="0" max="2" step="1" bind:value={rangeValues[i]} />
+				<P>{intensityMap.get(rangeValues[i])} Beschwerden</P>
+			</div>
+		{/each}
+	</div>
+	<Button pill class="submitButton" on:click={() => sendToBackend(rangeValues)}>Submit</Button>
+{/if}

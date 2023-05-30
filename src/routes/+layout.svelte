@@ -76,7 +76,6 @@
 			Pollen Tracker
 		</span>
 	</NavBrand>
-	<NavHamburger on:click={toggle} />
 	<NavUl {hidden} {divClass} {ulClass}>
 		<NavLi href="/">Home</NavLi>
 		<NavLi href="/pages/about">About</NavLi>

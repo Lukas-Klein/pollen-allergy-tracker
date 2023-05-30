@@ -37,3 +37,15 @@
 .contactColumn {
 	margin: 0 0 1rem 0;
 }
+
+@media (max-width: 768px) {
+	.tableGrid {
+		grid-template-columns: 1fr;
+	}
+	.problemAreasGrid {
+		grid-template-columns: 1fr;
+	}
+	.contactGrid {
+		grid-template-columns: 1fr;
+	}
+}
