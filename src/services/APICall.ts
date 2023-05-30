@@ -6,8 +6,6 @@ import {
 	PUBLIC_SUPABASE_KEY,
 	PUBLIC_SUPABASE_PASSWORD
 } from '$env/static/public';
-import { backendData } from './stores';
-import { Powershell } from 'svelte-simples';
 
 const supabaseUrl = 'https://hobixloqfrxsnqlwfqer.supabase.co';
 const supabaseKey: any = PUBLIC_SUPABASE_KEY;
@@ -15,7 +13,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function getPollenData() {
 	const response = await axios.get(
-		'https://opendata.dwd.de/climate_environment/health/alerts/s31fg.json'
+		'https://cors.lukasklein1604.workers.dev/?https://opendata.dwd.de/climate_environment/health/alerts/s31fg.json'
 	);
 
 	const pollenMainFranken = response.data.content.find((obj: { partregion_id: number }) => {
