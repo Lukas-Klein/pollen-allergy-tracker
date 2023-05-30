@@ -16,10 +16,8 @@
 		SidebarItem,
 		SidebarWrapper,
 		Drawer,
-		CloseButton,
-		SidebarDropdownWrapper
+		CloseButton
 	} from 'flowbite-svelte';
-	import { Cog } from 'svelte-heros-v2';
 	import { sineIn } from 'svelte/easing';
 
 	let transitionParams = {
@@ -71,7 +69,7 @@
 <Navbar let:hidden let:toggle>
 	<NavHamburger on:click={toggleDrawer} btnClass="ml-3 lg:hidden" />
 	<NavBrand href="/" class="lg:ml-64">
-		<Cog />
+		<img src="/blume.png" alt="logo" class="w-10 h-10" />
 		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white pl-4">
 			Pollen Tracker
 		</span>

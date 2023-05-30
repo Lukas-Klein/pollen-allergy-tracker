@@ -9,12 +9,7 @@
 		ListPlaceholder,
 		TestimonialPlaceholder,
 		Accordion,
-		AccordionItem
-	} from 'flowbite-svelte';
-	import { onMount } from 'svelte';
-	import { getPollenData, sendToBackend } from '../services/APICall';
-	import type { iPollenData } from '../services/types';
-	import {
+		AccordionItem,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -22,6 +17,9 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
+	import { onMount } from 'svelte';
+	import { getPollenData, sendToBackend } from '../services/APICall';
+	import type { iPollenData } from '../services/types';
 	import { pollenDataStore } from '../services/stores';
 
 	let rangeValues: number[] = [1, 1];
