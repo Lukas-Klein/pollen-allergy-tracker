@@ -1,7 +1,12 @@
 .tableGrid {
+	margin-top: 5rem;
 	display: grid;
 	gap: 1rem;
 	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.skeletonBottom {
+	margin-top: 3rem;
 }
 
 .problemAreasGrid {
@@ -16,4 +21,19 @@
 	grid-template-columns: 1fr;
 	margin: auto;
 	margin-top: 2rem;
+}
+
+.rounded-full {
+	margin: 2rem auto auto auto;
+}
+
+.contactGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 3rem;
+	margin: 2rem 0 1rem 0;
+}
+
+.contactColumn {
+	margin: 0 0 1rem 0;
 }

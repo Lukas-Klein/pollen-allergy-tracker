@@ -21,7 +21,6 @@
 	} from 'flowbite-svelte';
 	import { Cog } from 'svelte-heros-v2';
 	import { sineIn } from 'svelte/easing';
-	import { getPollenData } from '../services/APICall';
 
 	let transitionParams = {
 		x: -320,
@@ -81,9 +80,7 @@
 	<NavUl {hidden} {divClass} {ulClass}>
 		<NavLi href="/">Home</NavLi>
 		<NavLi href="/pages/about">About</NavLi>
-		<NavLi href="https://github.com/shinokada/flowbite-sveltekit-responsive-sidebar-layout"
-			>GitHub</NavLi
-		>
+		<NavLi href="https://github.com/Lukas-Klein">GitHub</NavLi>
 	</NavUl>
 </Navbar>
 <DarkMode btnClass={darkmodebtn} />
@@ -113,17 +110,6 @@
 						active={activeUrl === `/pages/${path}`}
 					/>
 				{/each}
-				<SidebarDropdownWrapper label="Articles">
-					{#each data.articles as { meta, path }}
-						<SidebarItem
-							label={meta.title}
-							href={`/blog/${path}`}
-							{spanClass}
-							on:click={toggleSide}
-							active={activeUrl === `/blog/${path}`}
-						/>
-					{/each}
-				</SidebarDropdownWrapper>
 			</SidebarGroup>
 		</SidebarWrapper>
 	</Sidebar>

@@ -1,6 +1,6 @@
 ---
 dir: pages
-title: About
+title: About me
 icon: Envelope
 ---
 
@@ -8,16 +8,19 @@ icon: Envelope
   import { Img, Heading, P } from 'flowbite-svelte'
 </script>
 
-<Img src="/images/image-1@2x.jpg" alt="sample 1" size="max-w-lg" alignment="mx-auto" />
+<Img  src="/profilePicture.JPEG" alt="sample 1" size="w-96" imgClass="h-80" class="rounded-full" />
 
 <Heading class="p-8" tag="h1" customSize="text-3xl">{title}</Heading>
 
 <P class="px-8 py-4">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet cursus sit amet dictum sit. Quis enim lobortis scelerisque fermentum dui faucibus in. Mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan. Ipsum dolor sit amet consectetur adipiscing elit. Euismod nisi porta lorem mollis aliquam ut porttitor. Tortor consequat id porta nibh. Tortor condimentum lacinia quis vel eros donec ac odio. Elementum sagittis vitae et leo duis ut diam quam nulla. Vel turpis nunc eget lorem.
+Welcome to my personal pollen allergy tracking website! My name is Lukas, and I have been struggling with pollen allergies for as long as I can remember. Pollen has always been my seasonal nemesis, causing me discomfort and impacting my quality of life. This website is dedicated to document and analyze my daily struggles as I deal with this allergy.
 </P>
 <P class="px-8 py-4">
-Aliquet porttitor lacus luctus accumsan. Ac orci phasellus egestas tellus rutrum tellus. Non odio euismod lacinia at quis risus sed. Nam libero justo laoreet sit amet cursus sit amet. Arcu odio ut sem nulla pharetra diam sit amet nisl. Vulputate mi sit amet mauris commodo quis imperdiet. Malesuada nunc vel risus commodo viverra. Eget nulla facilisi etiam dignissim diam quis enim. Hac habitasse platea dictumst quisque. Ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim.
+As a tech-savvy and data-driven individual, I decided to fully code this website myself based on a Template provided by <a href="https://github.com/shinokada/flowbite-sveltekit-responsive-sidebar-layout">Flowbite</a>. With the primary goal of assisting my doctor in honing the most effective and specific immunotherapy treatment for my case, I built this platform using my programming skills and creativity.
 </P>
 <P class="px-8 py-4">
-Nec feugiat in fermentum posuere urna nec tincidunt praesent. Nulla pharetra diam sit amet nisl suscipit adipiscing bibendum est. Eu turpis egestas pretium aenean pharetra magna. Ultricies lacus sed turpis tincidunt id. Urna nec tincidunt praesent semper feugiat nibh. Aliquam etiam erat velit scelerisque in dictum non consectetur. Suspendisse in est ante in nibh mauris cursus mattis molestie. Facilisi nullam vehicula ipsum a. Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi. Libero justo laoreet sit amet cursus sit amet.
+Every day, I visit the website to report my allergy symptoms, challenges, and struggles. This data is then securely stored in the Supabase backend that I've set up. My doctor has access to this database, enabling them to closely monitor my experiences and use the collected data to shape a tailored approach to my immunotherapy.
+</P>
+<P class="px-8 py-4">
+Feel free to explore my website and learn more about my pollen allergy journey. If you have any questions, suggestions, or simply want to connect and share your own experiences, please don't hesitate to reach out to me via the Contact section.
 </P>

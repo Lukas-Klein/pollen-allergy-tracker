@@ -1,0 +1,5 @@
+Welcome to my personal pollen allergy tracking website! My name is Lukas, and I have been struggling with pollen allergies for as long as I can remember. Pollen has always been my seasonal nemesis, causing me discomfort and impacting my quality of life. This website is dedicated to document and analyze my daily struggles as I deal with this allergy.
+
+As a tech-savvy and data-driven individual, I decided to fully code this website myself based on a Template provided by Flowbite. With the primary goal of assisting my doctor in honing the most effective and specific immunotherapy treatment for my case, I built this platform using my programming skills and creativity.
+
+Every day, I visit the website to report my allergy symptoms, challenges, and struggles. This data is then securely stored in the Supabase backend that I've set up. My doctor has access to this database, enabling them to closely monitor my experiences and use the collected data to shape a tailored approach to my immunotherapy.
