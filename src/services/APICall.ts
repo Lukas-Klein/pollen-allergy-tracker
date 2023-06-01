@@ -115,10 +115,18 @@ function activateToast(color: toastColor, text: string, svg: string) {
 
 export async function checkIfAlreadySend() {
 	const current = new Date();
+	current.setDate(current.getDate());
 	let { data: Calendar, error } = await supabase
 		.from('Calendar')
 		.select('*')
-		.eq('Datum', `${current.getDate()}.${current.getMonth() + 1}.${current.getFullYear()}`);
+		.eq(
+			'Datum',
+			current.getFullYear() +
+				'-' +
+				('0' + (current.getMonth() + 1)).slice(-2) +
+				'-' +
+				('0' + current.getDate()).slice(-2)
+		);
 
 	if (error) {
 		console.log(error);
@@ -150,12 +158,12 @@ export async function sendToBackend(allComplaints: number[], medication: string[
 		try {
 			const { data, error } = await supabase.from('Calendar').insert([
 				{
-					Datum: `${current.getDate()}.${current.getMonth() + 1}.${current.getFullYear()}`,
+					Datum: `${current.getFullYear()},${current.getMonth() + 1},${current.getDate()}`,
 					Augen: allComplaints[0],
 					Nase: allComplaints[1],
 					'im Haus': 1,
 					Draußen: 1,
-					Medikamente: medication.toString(),
+					Medikamente: medication.length > 0 ? medication.toString() : '-',
 					Pollenflug: aktivePollenBackend
 				}
 			]);
@@ -174,10 +182,16 @@ export async function sendToBackend(allComplaints: number[], medication: string[
 				.update({
 					Augen: allComplaints[0],
 					Nase: allComplaints[1],
-					Medikamente: medication.toString()
+					Medikamente: medication.length > 0 ? medication.toString() : '-'
 				})
-				.eq('Datum', `${current.getDate()}.${current.getMonth() + 1}.${current.getFullYear()}`);
-			console.log(error);
+				.eq(
+					'Datum',
+					current.getFullYear() +
+						'-' +
+						('0' + (current.getMonth() + 1)).slice(-2) +
+						'-' +
+						('0' + current.getDate()).slice(-2)
+				);
 
 			activateToast('blue', 'Updated Data! 😊', svgCheck);
 		} catch {
