@@ -15,12 +15,14 @@
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell
+		TableHeadCell,
+		Toast,
+		Spinner
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { getPollenData, sendToBackend } from '../services/APICall';
 	import type { iPollenData } from '../services/types';
-	import { pollenDataStore } from '../services/stores';
+	import { pollenDataStore, showToast, submitButton } from '../services/stores';
 
 	let rangeValues: number[] = [1, 1];
 	const problemAreas: string[] = ['Augen', 'Nase'];
@@ -30,16 +32,17 @@
 
 	const intensityMap = new Map<number, string>([
 		[0, 'Keine'],
-		[1, 'Mittlere'],
-		[2, 'Starke']
+		[1, 'Leichte'],
+		[2, 'Mittlere'],
+		[3, 'Starke']
 	]);
 
 	const mapSeverityRating = new Map<string, number>([
-		['0-1', 1],
+		['0-1', 0.5],
 		['1', 1],
-		['1-2', 2],
+		['1-2', 1.5],
 		['2', 2],
-		['2-3', 3],
+		['2-3', 2.5],
 		['3', 3]
 	]);
 
@@ -61,6 +64,20 @@
 	</div>
 	<TestimonialPlaceholder class="skeletonBottom" />
 {:else}
+	<Toast position="top-right" color={$showToast.color} class="infoToast" open={$showToast.open}>
+		<svelte:fragment slot="icon">
+			<svg
+				aria-hidden="true"
+				class="w-5 h-5"
+				fill="currentColor"
+				viewBox="0 0 20 20"
+				xmlns="http://www.w3.org/2000/svg"
+				><path fill-rule="evenodd" d={$showToast.svg} clip-rule="evenodd" /></svg
+			>
+			<span class="sr-only">Check icon</span>
+		</svelte:fragment>
+		{$showToast.text}
+	</Toast>
 	{#if mobile}
 		<div class="tableGrid">
 			{#each $pollenDataStore as pollenDay, i}
@@ -147,10 +164,16 @@
 		{#each problemAreas as problemArea, i}
 			<div>
 				<Label>{problemArea}</Label>
-				<Range id="range-steps" min="0" max="2" step="1" bind:value={rangeValues[i]} />
+				<Range id="range-steps" min="0" max="3" step="1" bind:value={rangeValues[i]} />
 				<P>{intensityMap.get(rangeValues[i])} Beschwerden</P>
 			</div>
 		{/each}
 	</div>
-	<Button pill class="submitButton" on:click={() => sendToBackend(rangeValues)}>Submit</Button>
+	<Button
+		disabled={$submitButton === 'Submit' ? false : true}
+		color="dark"
+		outline
+		class="submitButton"
+		on:click={() => sendToBackend(rangeValues)}>{$submitButton}</Button
+	>
 {/if}

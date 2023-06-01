@@ -27,7 +27,6 @@
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"flowbite": "^1.5.5",
-		"flowbite-svelte": "^0.37.2",
 		"mdsvex": "^0.10.6",
 		"postcss": "^8.4.14",
 		"postcss-load-config": "^4.0.1",
@@ -48,6 +47,7 @@
 		"@supabase/supabase-js": "^2.22.0",
 		"axios": "^1.4.0",
 		"dotenv": "^16.0.3",
+		"flowbite-svelte": "^0.37.2",
 		"svelte-simples": "^0.7.1"
 	}
 }

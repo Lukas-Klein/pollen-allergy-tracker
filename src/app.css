@@ -23,6 +23,13 @@
 	margin-top: 2rem;
 }
 
+.spinnerButton {
+	display: grid;
+	grid-template-columns: 0.5fr 1fr;
+	margin: auto;
+	margin-top: 2rem;
+}
+
 .rounded-full {
 	margin: 2rem auto auto auto;
 }
@@ -36,6 +43,10 @@
 
 .contactColumn {
 	margin: 0 0 1rem 0;
+}
+
+.infoToast {
+	margin: 4rem 1rem 0 0;
 }
 
 @media (max-width: 768px) {
