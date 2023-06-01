@@ -49,6 +49,13 @@
 	margin: 4rem 1rem 0 0;
 }
 
+.medicationButtons {
+	margin: 2rem auto 0 auto;
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+}
+
 @media (max-width: 768px) {
 	.tableGrid {
 		grid-template-columns: 1fr;

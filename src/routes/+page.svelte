@@ -17,16 +17,19 @@
 		TableHead,
 		TableHeadCell,
 		Toast,
-		Spinner
+		Spinner,
+		Checkbox
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { getPollenData, sendToBackend } from '../services/APICall';
 	import type { iPollenData } from '../services/types';
 	import { pollenDataStore, showToast, submitButton } from '../services/stores';
 
+	let group: string[] = [];
 	let rangeValues: number[] = [1, 1];
 	const problemAreas: string[] = ['Augen', 'Nase'];
 	const days: string[] = ['Heute', 'Morgen', 'Übermorgen'];
+	const medications: string[] = ['Levocetirizin', 'Lorano'];
 	let loading: boolean = true;
 	let mobile: boolean;
 
@@ -160,6 +163,11 @@
 			{/each}
 		</div>
 	{/if}
+	<div class="medicationButtons">
+		{#each medications as medication, i}
+			<Checkbox bind:group value={medication}>{medication}</Checkbox>
+		{/each}
+	</div>
 	<div class="problemAreasGrid">
 		{#each problemAreas as problemArea, i}
 			<div>
@@ -174,6 +182,6 @@
 		color="dark"
 		outline
 		class="submitButton"
-		on:click={() => sendToBackend(rangeValues)}>{$submitButton}</Button
+		on:click={() => sendToBackend(rangeValues, group)}>{$submitButton}</Button
 	>
 {/if}

@@ -11,6 +11,29 @@ import { showToast, submitButton } from './stores';
 const supabaseUrl = 'https://hobixloqfrxsnqlwfqer.supabase.co';
 const supabaseKey: any = PUBLIC_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
+const svgCross: string =
+	'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z';
+const svgCheck: string =
+	'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z';
+type toastColor =
+	| 'form'
+	| 'none'
+	| 'default'
+	| 'gray'
+	| 'red'
+	| 'yellow'
+	| 'green'
+	| 'indigo'
+	| 'purple'
+	| 'pink'
+	| 'blue'
+	| 'light'
+	| 'dark'
+	| 'dropdown'
+	| 'navbar'
+	| 'navbarUl'
+	| 'primary'
+	| undefined;
 
 export async function getPollenData() {
 	const response = await axios.get(
@@ -72,17 +95,40 @@ export function prepBackendData(pollenToday: iPollenData[]) {
 	}
 }
 
+function activateToast(color: toastColor, text: string, svg: string) {
+	showToast.set({
+		color: color,
+		open: true,
+		svg: svg,
+		text: text
+	});
+	//set showtoast to false after 4 seconds
+	setTimeout(() => {
+		showToast.set({
+			color: color,
+			open: false,
+			svg: svg,
+			text: text
+		});
+	}, 4000);
+}
+
 export async function checkIfAlreadySend() {
 	const current = new Date();
 	let { data: Calendar, error } = await supabase
 		.from('Calendar')
 		.select('*')
-		.eq('date', `${current.getDate()}.${current.getMonth() + 1}.${current.getFullYear()}`);
+		.eq('Datum', `${current.getDate()}.${current.getMonth() + 1}.${current.getFullYear()}`);
 
-	return Calendar;
+	if (error) {
+		console.log(error);
+		return;
+	} else {
+		return Calendar;
+	}
 }
 
-export async function sendToBackend(allComplaints: number[]) {
+export async function sendToBackend(allComplaints: number[], medication: string[]) {
 	submitButton.set('loading...');
 	const current = new Date();
 
@@ -104,85 +150,41 @@ export async function sendToBackend(allComplaints: number[]) {
 		try {
 			const { data, error } = await supabase.from('Calendar').insert([
 				{
-					date: `${current.getDate()}.${current.getMonth() + 1}.${current.getFullYear()}`,
+					Datum: `${current.getDate()}.${current.getMonth() + 1}.${current.getFullYear()}`,
 					Augen: allComplaints[0],
 					Nase: allComplaints[1],
-					Husten: 0,
-					Haut: 0,
-					aktive_Pollen: aktivePollenBackend
+					'im Haus': 1,
+					Draußen: 1,
+					Medikamente: medication.toString(),
+					Pollenflug: aktivePollenBackend
 				}
 			]);
-			showToast.set({
-				color: 'green',
-				open: true,
-				svg: 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z',
-				text: 'Inserted Data! 😊'
-			});
-			//set showtoast to false after 4 seconds
-			setTimeout(() => {
-				showToast.set({
-					color: 'green',
-					open: false,
-					svg: 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z',
-					text: 'Inserted Data! 😊'
-				});
-			}, 4000);
+			activateToast('green', 'Inserted Data! 😊', svgCheck);
 		} catch (error) {
-			showToast.set({
-				color: 'red',
-				open: true,
-				svg: 'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z',
-				text: 'There occured an error while inserting your data. 😢'
-			});
-			setTimeout(() => {
-				showToast.set({
-					color: 'blue',
-					open: false,
-					svg: 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z',
-					text: 'Updated Data! 😊'
-				});
-			});
+			activateToast('red', 'There occured an error while inserting your data. 😢', svgCross);
 			console.log('error during data insert');
 			console.log(error);
+		} finally {
+			submitButton.set('Submit');
 		}
 	} else {
 		try {
 			const { data, error } = await supabase
 				.from('Calendar')
-				.update({ Augen: allComplaints[0], Nase: allComplaints[1] })
-				.eq('date', `${current.getDate()}.${current.getMonth() + 1}.${current.getFullYear()}`);
+				.update({
+					Augen: allComplaints[0],
+					Nase: allComplaints[1],
+					Medikamente: medication.toString()
+				})
+				.eq('Datum', `${current.getDate()}.${current.getMonth() + 1}.${current.getFullYear()}`);
+			console.log(error);
 
-			showToast.set({
-				color: 'blue',
-				open: true,
-				svg: 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z',
-				text: 'Updated Data! 😊'
-			});
-			setTimeout(() => {
-				showToast.set({
-					color: 'blue',
-					open: false,
-					svg: 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z',
-					text: 'Updated Data! 😊'
-				});
-			}, 4000);
+			activateToast('blue', 'Updated Data! 😊', svgCheck);
 		} catch {
-			showToast.set({
-				color: 'red',
-				open: true,
-				svg: 'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z',
-				text: 'There occured an error while updating your data. 😢'
-			});
-			setTimeout(() => {
-				showToast.set({
-					color: 'blue',
-					open: false,
-					svg: 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z',
-					text: 'Updated Data! 😊'
-				});
-			});
+			activateToast('red', 'There occured an error while updating your data. 😢', svgCross);
 			console.log('update didnt work');
+		} finally {
+			submitButton.set('Submit');
 		}
 	}
-	submitButton.set('Submit');
 }
