@@ -1,4 +1,5 @@
 <script lang="ts">
+	// Import necessary UI elements from 'flowbite-svelte' library and onMount function from Svelte
 	import {
 		Heading,
 		P,
@@ -16,15 +17,21 @@
 		TableBodyRow,
 		TableHead,
 		TableHeadCell,
-		Toast,
 		Checkbox,
 		Indicator,
 		Badge,
 		Alert
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
-	import { checkIfAlreadySend, getPollenData, sendToBackend } from '../services/APICall';
+	// Import functions from custom APICall service and type definition
+	import {
+		checkIfAlreadySent,
+		getBackendData,
+		getPollenData,
+		sendToBackend
+	} from '../services/APICall';
 	import type { iPollenData } from '../services/types';
+	// Import necessary stores from services
 	import {
 		dataAlreadyUploaded,
 		pollenDataStore,
@@ -32,6 +39,7 @@
 		submitButton
 	} from '../services/stores';
 
+	// Define initial state variables
 	let group: string[] = [];
 	let rangeValues: number[] = [1, 1];
 	const problemAreas: string[] = ['Augen', 'Nase'];
@@ -39,7 +47,11 @@
 	const medications: string[] = ['Levocetirizin', 'Lorano'];
 	let loading: boolean = true;
 	let mobile: boolean;
+	let dayData: { Augen: string; Nase: string; Medikamente: string }[] = [
+		{ Augen: '1', Nase: '1', Medikamente: '' }
+	];
 
+	// Define Maps for symptom intensity and severity rating
 	const intensityMap = new Map<number, string>([
 		[0, 'Keine'],
 		[1, 'Leichte'],
@@ -56,15 +68,30 @@
 		['3', 3]
 	]);
 
+	// Fetch data when component is mounted
 	onMount(async () => {
+		const fetchAndSetInitialData = async () => {
+			// Retrieve data for today from the backend and set initial range values for the symptoms and the checkbox value of the medicaments based on retrieved data
+			dayData = await getBackendData();
+			rangeValues = [parseInt(dayData[0].Augen), parseInt(dayData[0].Nase)];
+			group = dayData[0].Medikamente.split(',');
+
+			// Retrieve pollen data from backend and update pollen data store with retrieved data
+			const pollenData: iPollenData[] = await getPollenData();
+			pollenDataStore.set(pollenData);
+
+			// Check if data has already been submitted today and set loading state to false after data has been fetched and set initial state variables
+			checkIfAlreadySent();
+			loading = false;
+		};
+		await fetchAndSetInitialData();
+
+		// Set initial state for mobile view based on window width
 		window.screen.width < 768 ? (mobile = true) : (mobile = false);
-		const pollenData: iPollenData[] = await getPollenData();
-		pollenDataStore.set(pollenData);
-		checkIfAlreadySend();
-		loading = false;
 	});
 </script>
 
+<!-- Display loading placeholder or actual UI based on loading variable -->
 <svelte:window on:resize={() => (window.screen.width < 768 ? (mobile = true) : (mobile = false))} />
 
 {#if loading}
@@ -75,6 +102,7 @@
 	</div>
 	<TestimonialPlaceholder class="skeletonBottom" />
 {:else}
+	<!-- Display alert if showAlert variable is set to open -->
 	{#if $showAlert.open}
 		<Alert color={$showAlert.color} dismissable>
 			<span slot="icon"
@@ -90,6 +118,8 @@
 			<span class="font-medium">{$showAlert.text}</span>
 		</Alert>
 	{/if}
+
+	<!-- Display badge if data has already been uploaded -->
 	<div class="alreadyUploadedBadge">
 		<Badge color={$dataAlreadyUploaded.color} rounded>
 			<Indicator
@@ -99,6 +129,8 @@
 			/>{$dataAlreadyUploaded.text}
 		</Badge>
 	</div>
+
+	<!-- Display pollen allergy data table, medication checkboxes, and problem areas sliders -->
 	{#if mobile}
 		<div class="tableGrid">
 			{#each $pollenDataStore as pollenDay, i}
@@ -192,9 +224,12 @@
 				<Label>{problemArea}</Label>
 				<Range id="range-steps" min="0" max="3" step="1" bind:value={rangeValues[i]} />
 				<P>{intensityMap.get(rangeValues[i])} Beschwerden</P>
+				<!-- Show selected symptom intensity value -->
 			</div>
 		{/each}
 	</div>
+
+	<!-- Display button to submit data to the backend -->
 	<Button
 		disabled={$submitButton === 'Submit' ? false : true}
 		color="dark"

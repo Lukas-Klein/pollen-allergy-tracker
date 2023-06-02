@@ -33,3 +33,9 @@ export interface iStatus {
 	color: 'red' | 'green';
 	text: string;
 }
+
+export interface iDailyData {
+	Augen: string;
+	Nase: string;
+	Medikamente: string;
+}
