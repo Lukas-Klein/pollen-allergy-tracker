@@ -56,6 +56,13 @@
 	gap: 2rem;
 }
 
+.alreadyUploadedBadge {
+	float: right;
+}
+.alreadyUploadedBadge > span > div {
+	margin: 0 0.5rem 0 0;
+}
+
 @media (max-width: 768px) {
 	.tableGrid {
 		grid-template-columns: 1fr;

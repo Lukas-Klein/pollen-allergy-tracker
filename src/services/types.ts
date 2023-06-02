@@ -28,3 +28,8 @@ export interface iToast {
 	text: string;
 	open: boolean;
 }
+
+export interface iStatus {
+	color: 'red' | 'green';
+	text: string;
+}

@@ -17,13 +17,20 @@
 		TableHead,
 		TableHeadCell,
 		Toast,
-		Spinner,
-		Checkbox
+		Checkbox,
+		Indicator,
+		Badge,
+		Alert
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
-	import { getPollenData, sendToBackend } from '../services/APICall';
+	import { checkIfAlreadySend, getPollenData, sendToBackend } from '../services/APICall';
 	import type { iPollenData } from '../services/types';
-	import { pollenDataStore, showToast, submitButton } from '../services/stores';
+	import {
+		dataAlreadyUploaded,
+		pollenDataStore,
+		showAlert,
+		submitButton
+	} from '../services/stores';
 
 	let group: string[] = [];
 	let rangeValues: number[] = [1, 1];
@@ -53,6 +60,7 @@
 		window.screen.width < 768 ? (mobile = true) : (mobile = false);
 		const pollenData: iPollenData[] = await getPollenData();
 		pollenDataStore.set(pollenData);
+		checkIfAlreadySend();
 		loading = false;
 	});
 </script>
@@ -67,20 +75,30 @@
 	</div>
 	<TestimonialPlaceholder class="skeletonBottom" />
 {:else}
-	<Toast position="top-right" color={$showToast.color} class="infoToast" open={$showToast.open}>
-		<svelte:fragment slot="icon">
-			<svg
-				aria-hidden="true"
-				class="w-5 h-5"
-				fill="currentColor"
-				viewBox="0 0 20 20"
-				xmlns="http://www.w3.org/2000/svg"
-				><path fill-rule="evenodd" d={$showToast.svg} clip-rule="evenodd" /></svg
-			>
-			<span class="sr-only">Check icon</span>
-		</svelte:fragment>
-		{$showToast.text}
-	</Toast>
+	{#if $showAlert.open}
+		<Alert color={$showAlert.color} dismissable>
+			<span slot="icon"
+				><svg
+					aria-hidden="true"
+					class="w-5 h-5"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
+					><path fill-rule="evenodd" d={$showAlert.svg} clip-rule="evenodd" /></svg
+				>
+			</span>
+			<span class="font-medium">{$showAlert.text}</span>
+		</Alert>
+	{/if}
+	<div class="alreadyUploadedBadge">
+		<Badge color={$dataAlreadyUploaded.color} rounded>
+			<Indicator
+				color={$dataAlreadyUploaded.color}
+				size="xs"
+				class="indicator"
+			/>{$dataAlreadyUploaded.text}
+		</Badge>
+	</div>
 	{#if mobile}
 		<div class="tableGrid">
 			{#each $pollenDataStore as pollenDay, i}

@@ -6,7 +6,8 @@ import {
 	PUBLIC_SUPABASE_KEY,
 	PUBLIC_SUPABASE_PASSWORD
 } from '$env/static/public';
-import { showToast, submitButton } from './stores';
+import { dataAlreadyUploaded, showAlert, submitButton } from './stores';
+import { C } from 'svelte-simples';
 
 const supabaseUrl = 'https://hobixloqfrxsnqlwfqer.supabase.co';
 const supabaseKey: any = PUBLIC_SUPABASE_KEY;
@@ -96,15 +97,15 @@ export function prepBackendData(pollenToday: iPollenData[]) {
 }
 
 function activateToast(color: toastColor, text: string, svg: string) {
-	showToast.set({
+	showAlert.set({
 		color: color,
 		open: true,
 		svg: svg,
 		text: text
 	});
-	//set showtoast to false after 4 seconds
+	//set showAlert to false after 4 seconds
 	setTimeout(() => {
-		showToast.set({
+		showAlert.set({
 			color: color,
 			open: false,
 			svg: svg,
@@ -127,6 +128,12 @@ export async function checkIfAlreadySend() {
 				'-' +
 				('0' + current.getDate()).slice(-2)
 		);
+
+	if (Calendar === null || Calendar.length === 0) {
+		dataAlreadyUploaded.set({ color: 'red', text: 'Keine Daten hochgeladen' });
+	} else {
+		dataAlreadyUploaded.set({ color: 'green', text: 'Daten bereits hochgeladen' });
+	}
 
 	if (error) {
 		console.log(error);
@@ -168,6 +175,7 @@ export async function sendToBackend(allComplaints: number[], medication: string[
 				}
 			]);
 			activateToast('green', 'Inserted Data! 😊', svgCheck);
+			dataAlreadyUploaded.set({ color: 'green', text: 'Daten vorhanden' });
 		} catch (error) {
 			activateToast('red', 'There occured an error while inserting your data. 😢', svgCross);
 			console.log('error during data insert');

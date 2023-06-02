@@ -1,11 +1,11 @@
-import { writable } from 'svelte/store';
-import type { iPollenData, iToast } from './types';
+import { writable, type Writable } from 'svelte/store';
+import type { iPollenData, iStatus, iToast } from './types';
 
 export const pollenDataStore = writable<iPollenData[]>([]);
 
 export const backendData = writable({ Augen: '0', Nase: '0' });
 
-export const showToast = writable<iToast>({
+export const showAlert = writable<iToast>({
 	color: 'green',
 	open: false,
 	svg: 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z',
@@ -13,3 +13,5 @@ export const showToast = writable<iToast>({
 });
 
 export const submitButton = writable<string>('Submit');
+
+export const dataAlreadyUploaded = writable<iStatus>({ color: 'green', text: 'Already uploaded!' });
