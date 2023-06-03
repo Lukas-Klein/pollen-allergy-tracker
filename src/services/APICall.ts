@@ -97,25 +97,24 @@ export async function getBackendData() {
 	current.setDate(current.getDate());
 
 	// Construct a query using the Supabase client library, and retrieve data for the Augen, Nase, and Medikamente columns for the current date
-	const { data, error } = await supabase
-		.from('Calendar')
-		.select('Augen, Nase, Medikamente')
-		.eq(
-			'Datum',
-			current.getFullYear() +
-				'-' +
-				('0' + (current.getMonth() + 1)).slice(-2) +
-				'-' +
-				('0' + current.getDate()).slice(-2)
-		);
-
-	// If an error occurred, log it and return
-	if (error) {
+	try {
+		const { data, error } = await supabase
+			.from('Calendar')
+			.select('Augen, Nase, Medikamente')
+			.eq(
+				'Datum',
+				current.getFullYear() +
+					'-' +
+					('0' + (current.getMonth() + 1)).slice(-2) +
+					'-' +
+					('0' + current.getDate()).slice(-2)
+			);
+		return data;
+	} catch (error) {
+		// If an error occurred, log it and return
 		console.log(error);
 		return;
 	}
-
-	return data;
 }
 
 let aktivePollenBackend: string = '';

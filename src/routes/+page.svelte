@@ -41,7 +41,7 @@
 
 	// Define initial state variables
 	let group: string[] = [];
-	let rangeValues: number[] = [1, 1];
+	let rangeValues: number[] = [];
 	const problemAreas: string[] = ['Augen', 'Nase'];
 	const days: string[] = ['Heute', 'Morgen', 'Übermorgen'];
 	const medications: string[] = ['Levocetirizin', 'Lorano'];
@@ -73,9 +73,9 @@
 		const fetchAndSetInitialData = async () => {
 			// Retrieve data for today from the backend and set initial range values for the symptoms and the checkbox value of the medicaments based on retrieved data
 			dayData = await getBackendData();
-			rangeValues = [parseInt(dayData[0].Augen), parseInt(dayData[0].Nase)];
-			group = dayData[0].Medikamente.split(',');
-
+			rangeValues =
+				dayData.length > 0 ? [parseInt(dayData[0].Augen), parseInt(dayData[0].Nase)] : [1, 1];
+			group = dayData.length > 0 ? dayData[0].Medikamente.split(',') : [];
 			// Retrieve pollen data from backend and update pollen data store with retrieved data
 			const pollenData: iPollenData[] = await getPollenData();
 			pollenDataStore.set(pollenData);
