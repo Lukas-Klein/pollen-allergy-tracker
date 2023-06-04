@@ -35,7 +35,9 @@ npm install
 
 4. Create a `.env` file in the root folder and add your Supabase credentials:
 
-PUBLIC_SUPABASE_EMAIL=your_supabase_email PUBLIC_SUPABASE_KEY=your_supabase_key PUBLIC_SUPABASE_PASSWORD=your_supabase_password
+   - PUBLIC_SUPABASE_EMAIL=your_supabase_email
+   - PUBLIC_SUPABASE_KEY=your_supabase_key 
+   - PUBLIC_SUPABASE_PASSWORD=your_supabase_password
 
 5. Log in to your Supabase account and create a table named `Calendar` with the following columns:
    - Datum
