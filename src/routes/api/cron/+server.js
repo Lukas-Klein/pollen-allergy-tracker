@@ -1,7 +1,7 @@
 // @ts-ignore
 import {  PUBLIC_SUPABASE_KEY, PUBLIC_EMAIL_PASSWORD } from '$env/static/public';    
-const { createClient } = require("@supabase/supabase-js");
-const nodemailer = require("nodemailer");
+import { createClient } from '@supabase/supabase-js';
+import nodemailer from 'nodemailer';
 
 // @ts-ignore
 export default async function handler(req, res) {
