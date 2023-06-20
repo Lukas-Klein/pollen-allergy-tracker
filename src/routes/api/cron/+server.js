@@ -1,17 +1,11 @@
-import { createClient } from '@supabase/supabase-js';
 // @ts-ignore
-import {  PUBLIC_SUPABASE_KEY, PUBLIC_EMAIL_PASSWORD } from '$env/static/public';
-import nodemailer from 'nodemailer';
+import {  PUBLIC_SUPABASE_KEY, PUBLIC_EMAIL_PASSWORD } from '$env/static/public';    
+const { createClient } = require("@supabase/supabase-js");
+const nodemailer = require("nodemailer");
 
-
-    
-    export const config = {
-        runtime: 'edge',
-      };
-    
-    // @ts-ignore
-    async function handler(req, res) {
-      // Get the current date in the needed format
+// @ts-ignore
+export default async function handler(req, res) {
+      // Get the currlent date in the needed format
       const current = new Date();
       current.setDate(current.getDate());
     
@@ -73,5 +67,3 @@ import nodemailer from 'nodemailer';
         res.status(200).json({ message: `Changes found: ${JSON.stringify(data)}` });
         }
     }
-    
-    module.exports = handler;
