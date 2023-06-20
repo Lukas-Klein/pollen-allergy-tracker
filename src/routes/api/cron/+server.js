@@ -54,16 +54,18 @@ export default async function handler(req, res) {
           if (error) {
             console.log(error);
             res.status(500).json({ error: 'Internal server error' });
-            return;
+            return new Response('error!');
           }
           
           res.status(200).json({ message: 'No changes today, email sent' });
         });
         
-        return;
+        return new Response('Hello Cron!');
       }
       else{
         // If there are results, there has been a change on the current day
         res.status(200).json({ message: `Changes found: ${JSON.stringify(data)}` });
         }
+
+        return new Response('Hello Cron!');
     }
