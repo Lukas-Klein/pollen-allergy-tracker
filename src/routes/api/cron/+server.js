@@ -1,7 +1,7 @@
-const { createClient } = require('@supabase/supabase-js');
+import { createClient } from '@supabase/supabase-js';
 // @ts-ignore
-const {  PUBLIC_SUPABASE_KEY, PUBLIC_EMAIL_PASSWORD } = require('$env/static/public');
-const nodemailer = require('nodemailer');
+import {  PUBLIC_SUPABASE_KEY, PUBLIC_EMAIL_PASSWORD } from '$env/static/public';
+import nodemailer from 'nodemailer';
 
 
     
