@@ -1,13 +1,15 @@
-// @ts-nocheck
-export function GET(req) {
-    const { createClient } = require('@supabase/supabase-js');
-    const {  PUBLIC_SUPABASE_KEY, PUBLIC_EMAIL_PASSWORD } = require('$env/static/public');
-    const nodemailer = require('nodemailer');
+const { createClient } = require('@supabase/supabase-js');
+// @ts-ignore
+const {  PUBLIC_SUPABASE_KEY, PUBLIC_EMAIL_PASSWORD } = require('$env/static/public');
+const nodemailer = require('nodemailer');
+
+
     
     export const config = {
         runtime: 'edge',
       };
     
+    // @ts-ignore
     async function handler(req, res) {
       // Get the current date in the needed format
       const current = new Date();
@@ -17,7 +19,6 @@ export function GET(req) {
       const supabaseUrl = 'https://hobixloqfrxsnqlwfqer.supabase.co';
       const supabaseKey = PUBLIC_SUPABASE_KEY;
       const supabase = createClient(supabaseUrl, supabaseKey);
-    
       // Query the database
       const { data, error } = await supabase
         .from('Calendar')
@@ -74,4 +75,3 @@ export function GET(req) {
     }
     
     module.exports = handler;
-      }
