@@ -74,7 +74,7 @@
 			// Retrieve data for today from the backend and set initial range values for the symptoms and the checkbox value of the medicaments based on retrieved data
 			dayData = await getBackendData();
 			rangeValues =
-				dayData.length > 0 ? [parseInt(dayData[0].Augen), parseInt(dayData[0].Nase)] : [1, 1];
+				dayData.length > 0 ? [parseInt(dayData[0].Augen), parseInt(dayData[0].Nase)] : [0, 0];
 			group = dayData.length > 0 ? dayData[0].Medikamente.split(',') : [];
 			// Retrieve pollen data from backend and update pollen data store with retrieved data
 			const pollenData: iPollenData[] = await getPollenData();

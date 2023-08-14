@@ -17,6 +17,7 @@
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^1.0.0",
 		"@sveltejs/kit": "^1.0.0",
+		"@types/nodemailer": "^6.4.8",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"eslint": "^8.28.0",
@@ -29,17 +30,19 @@
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",
 		"svelte-preprocess": "^4.10.7",
+		"tailwindcss": "^3.3.2",
 		"typescript": "^4.9.3",
 		"vite": "^4.0.0",
 		"vitest": "^0.25.3"
 	},
 	"type": "module",
 	"dependencies": {
+		"@sendgrid/mail": "^7.7.0",
 		"@supabase/supabase-js": "^2.22.0",
 		"autoprefixer": "^10.4.14",
 		"axios": "^1.4.0",
 		"dotenv": "^16.0.3",
 		"flowbite-svelte": "^0.37.2",
-		"tailwindcss": "^3.3.2"
+		"nodemailer": "^6.9.3"
 	}
 }
