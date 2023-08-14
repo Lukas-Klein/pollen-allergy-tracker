@@ -1,17 +1,14 @@
 import axios from 'axios';
 import type { iDailyData, iPollenData } from './types';
-import { createClient } from '@supabase/supabase-js';
-import {
-	PUBLIC_SUPABASE_EMAIL,
-	PUBLIC_SUPABASE_KEY,
-	PUBLIC_SUPABASE_PASSWORD
-} from '$env/static/public';
 import { dataAlreadyUploaded, showAlert, submitButton } from './stores';
+import { PUBLIC_SUPABASE_KEY } from '$env/static/public';
+import { createClient } from '@supabase/supabase-js';
 
 // Define Supabase URL, API key, and initialize a Supabase client
 const supabaseUrl = 'https://hobixloqfrxsnqlwfqer.supabase.co';
 const supabaseKey: any = PUBLIC_SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(supabaseUrl, supabaseKey);
+
 
 // Define SVG icons
 const svgCross: string =
@@ -198,19 +195,6 @@ export async function sendToBackend(allComplaints: number[], medication: string[
 	submitButton.set('loading...');
 
 	const current = new Date();
-
-	// Login to Supabase using provided email and password
-	try {
-		if (PUBLIC_SUPABASE_EMAIL && PUBLIC_SUPABASE_PASSWORD) {
-			await supabase.auth.signInWithPassword({
-				email: PUBLIC_SUPABASE_EMAIL.toString(),
-				password: PUBLIC_SUPABASE_PASSWORD.toString()
-			});
-		}
-	} catch (error) {
-		console.log('error during login');
-		console.log(error);
-	}
 
 	let dailyData: any = [];
 
