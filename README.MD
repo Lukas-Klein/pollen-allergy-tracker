@@ -23,7 +23,7 @@ I created this project because I had to manually write my allergy symptoms in a 
 
 1. Clone the Pollen Allergy Tracker repository:
 
-git clone https://github.com/yourusername/pollen-allergy-tracker.git
+https://github.com/Lukas-Klein/pollen-allergy-tracker
 
 2. Navigate to the project directory:
 
