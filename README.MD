@@ -4,6 +4,10 @@ Pollen Allergy Tracker is a personal web application designed to help individual
 
 I created this project because I had to manually write my allergy symptoms in a physical calendar, and that process was too much effort for me 😄.
 
+Frontend in Dark Mode        |  Frontend in White Mode
+:-------------------------:|:-------------------------:
+![](./static/frontend-dark.png)  |  ![](./static/frontend-white.png)
+
 ## Features
 
 - Displays current and forecasted pollen levels and their severity
